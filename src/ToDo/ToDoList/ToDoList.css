@@ -1,0 +1,21 @@
+.title-icon-wrapper {
+    display: flex; 
+    align-items: center;
+    justify-content: space-between; 
+  }
+  
+  .title-list {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .rotated-icon {
+    transform: rotate(90deg);
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  .option-icon:hover{
+      color: #a78bfa; 
+  }
+  
