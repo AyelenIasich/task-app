@@ -1,4 +1,10 @@
-.title-modal{
-    font-size:24px;
-    font-weight: 700;
+.title-modal {
+  font-size: 24px;
+  font-weight: 700;
+  color: #313131;
+}
+
+.img-container {
+  margin-top: 20px;
+  text-align: center;
 }

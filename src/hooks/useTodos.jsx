@@ -1,33 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocalStorage } from "./useLocalStorage";
 
 function useTodos() {
-  const ITEMS_LIST = [
-    {
-      id: window.crypto.randomUUID(),
-      timestamp: Date.now(),
-      text: "buy groceries",
-      isCompleted: false,
-    },
-    {
-      id: window.crypto.randomUUID(),
-      timestamp: Date.now(),
-      text: "walk the dog",
-      isCompleted: true,
-    },
-    {
-      id: window.crypto.randomUUID(),
-      timestamp: Date.now(),
-      text: "do laundry",
-      isCompleted: false,
-    },
-  ];
 
   const {
     loading,
     items: taskList,
     saveItem: saveTasks,
-  } = useLocalStorage(ITEMS_LIST);
+    error,
+  } = useLocalStorage([], "tasks_v1");
 
   const [formError, setFormError] = useState({ field: "", message: "" });
 
@@ -36,8 +17,25 @@ function useTodos() {
 
   const [searchValue, setSearchValue] = useState("");
   const [showModalCreate, setShowModalCreate] = useState(false);
+
+  // #region success modal
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  
+
+  const handleCloseSuccessModal = () => {
+    setShowSuccessMessage(false);
+  };
+
+  const handleOpenSuccessModal = () => {
+    setShowSuccessMessage(true);
+  };
+
+  useEffect(() => {
+    if (completedTask === totalTask && totalTask > 0) {
+      handleOpenSuccessModal();
+    }
+  }, [completedTask, totalTask]);
+  // #endregion
+
   const normalizeText = (text) => {
     return text
       .toLowerCase()
@@ -84,15 +82,6 @@ function useTodos() {
     setShowModalCreate(false);
   };
 
-  
-  const handleCloseSuccessModal = () => {
-    setShowSuccessMessage(false);
-  };
-
-  const handleOpenSuccessModal = () => {
-    setShowSuccessMessage(true);
-  };
-
   return {
     completedTask,
     totalTask,
@@ -108,7 +97,8 @@ function useTodos() {
     handleCreateTask,
     formError,
     showSuccessMessage,
-    handleCloseSuccessModal
+    handleCloseSuccessModal,
+    error,
   };
 }
 

@@ -13,6 +13,7 @@ import CreateBtn from "./components/CreateBtn/CreateBtn";
 import Modal from "./components/Modal/Modal";
 import ToDoForm from "./ToDo/ToDoForm/ToDoForm";
 import SuccessModal from "./components/SucessModal/SuccessModal";
+import ToDosError  from "./ToDo/ToDosError/ToDosError";
 import { useTodos } from "./hooks/useTodos";
 import "./App.css";
 
@@ -31,7 +32,9 @@ function App() {
     handleCreateTask,
     formError,
     showSuccessMessage,
-    handleCloseSuccessModal
+    handleCloseSuccessModal,
+    error,
+
   } = useTodos();
 
   return (
@@ -62,6 +65,8 @@ function App() {
                     <ToDoLoading />
                   </>
                 )}
+              {error && <ToDosError />}
+
                 {!loading && searchedTasks.length === 0 && <EmptyTodos />}
                 {searchedTasks.map((task) => (
                   <ToDoItemList
