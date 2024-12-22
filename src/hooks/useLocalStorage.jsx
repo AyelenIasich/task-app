@@ -32,7 +32,7 @@ function useLocalStorage(initialValue, itemListName) {
     setItems(newItem);
   };
 
-  return { loading, items, saveItem, loading, error };
+  return { loading, items, saveItem,  error };
 }
 
 export { useLocalStorage };
