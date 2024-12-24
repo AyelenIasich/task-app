@@ -66,8 +66,19 @@ function App() {
                 onError={() => <ToDosError />}
                 onLoading={() => <ToDoLoading />}
                 onEmpyTodos={() => <EmptyTodos />}
-                onEmptySearchResult={(searchText) => <EmpyToDoSearchResult searchText={searchText}/>}
-                render={(task) => (
+                onEmptySearchResult={(searchText) => (
+                  <EmpyToDoSearchResult searchText={searchText} />
+                )}
+                // render={(task) => (
+                //   <ToDoItemList
+                //     key={task.id}
+                //     {...task}
+                //     onComplete={() => handleCompletedTask(task.id)}
+                //     onDelete={() => handleDeleteTask(task.id)}
+                //   />
+                // )}
+              >
+                {(task) => (
                   <ToDoItemList
                     key={task.id}
                     {...task}
@@ -75,7 +86,7 @@ function App() {
                     onDelete={() => handleDeleteTask(task.id)}
                   />
                 )}
-              />
+              </ToDoList>
             </Card>
             <CreateBtn setShowModalCreate={setShowModalCreate} />
           </ToDoContainer>

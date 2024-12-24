@@ -2,6 +2,7 @@ import React from "react";
 import "./ToDoList.css";
 
 function ToDoList(props) {
+  const renderFunc = props.children || props.render;
   return (
     <>
       <div className="title-icon-wrapper pb-4">
@@ -11,9 +12,11 @@ function ToDoList(props) {
       {props.error && props.onError()}
       {props.loading && props.onLoading()}
       {!props.loading && !props.totalTask && props.onEmpyTodos()}
-      {!!props.totalTask && !props.searchedTasks.length && props.onEmptySearchResult(props.searchText)}
-      {props.searchedTasks.map((task) => props.render(task))}
-      <ul>{props.children}</ul>
+      {!!props.totalTask &&
+        !props.searchedTasks.length &&
+        props.onEmptySearchResult(props.searchText)}
+
+      <ul className="p-0">{props.searchedTasks.map((task) => renderFunc(task))}</ul>
     </>
   );
 }
