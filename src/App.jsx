@@ -13,7 +13,7 @@ import CreateBtn from "./components/CreateBtn/CreateBtn";
 import Modal from "./components/Modal/Modal";
 import ToDoForm from "./ToDo/ToDoForm/ToDoForm";
 import SuccessModal from "./components/SucessModal/SuccessModal";
-import ToDosError  from "./ToDo/ToDosError/ToDosError";
+import ToDosError from "./ToDo/ToDosError/ToDosError";
 import { useTodos } from "./hooks/useTodos";
 import "./App.css";
 
@@ -34,7 +34,6 @@ function App() {
     showSuccessMessage,
     handleCloseSuccessModal,
     error,
-
   } = useTodos();
 
   return (
@@ -57,26 +56,22 @@ function App() {
             </ToDoHeader>
             {/* Card */}
             <Card>
-              <ToDoList>
-                {loading && (
-                  <>
-                    <ToDoLoading />
-                    <ToDoLoading />
-                    <ToDoLoading />
-                  </>
-                )}
-              {error && <ToDosError />}
-
-                {!loading && searchedTasks.length === 0 && <EmptyTodos />}
-                {searchedTasks.map((task) => (
+              <ToDoList
+                error={error}
+                loading={loading}
+                searchedTasks={searchedTasks}
+                onError={() => <ToDosError />}
+                onLoading={() => <ToDoLoading />}
+                onEmpyTodos={() => <EmptyTodos />}
+                render={(task) => (
                   <ToDoItemList
                     key={task.id}
                     {...task}
                     onComplete={() => handleCompletedTask(task.id)}
                     onDelete={() => handleDeleteTask(task.id)}
                   />
-                ))}
-              </ToDoList>
+                )}
+              />
             </Card>
             <CreateBtn setShowModalCreate={setShowModalCreate} />
           </ToDoContainer>
@@ -87,7 +82,11 @@ function App() {
       )}
       {showModalCreate && (
         <Modal>
-          <ToDoForm setShowModalCreate={setShowModalCreate} handleCreateTask={handleCreateTask} formError={formError}/>
+          <ToDoForm
+            setShowModalCreate={setShowModalCreate}
+            handleCreateTask={handleCreateTask}
+            formError={formError}
+          />
         </Modal>
       )}
     </>
