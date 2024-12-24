@@ -44,11 +44,10 @@ function App() {
           <Header />
           <ToDoContainer>
             {/* Header Card */}
-            <ToDoHeader>
+            <ToDoHeader loading={loading}>
               <ToDoCounter
                 completedTask={completedTask}
                 totalTask={totalTask}
-                loading={loading}
               />
               <ToDoSearch
                 searchValue={searchValue}
@@ -69,14 +68,6 @@ function App() {
                 onEmptySearchResult={(searchText) => (
                   <EmpyToDoSearchResult searchText={searchText} />
                 )}
-                // render={(task) => (
-                //   <ToDoItemList
-                //     key={task.id}
-                //     {...task}
-                //     onComplete={() => handleCompletedTask(task.id)}
-                //     onDelete={() => handleDeleteTask(task.id)}
-                //   />
-                // )}
               >
                 {(task) => (
                   <ToDoItemList
