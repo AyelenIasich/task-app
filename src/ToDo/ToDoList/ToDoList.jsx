@@ -9,9 +9,10 @@ function ToDoList(props) {
         <i className="fa-solid fa-ellipsis rotated-icon option-icon"></i>
       </div>
       {props.error && props.onError()}
-      {props.loading &&  props.onLoading()}
-      {(!props.loading && !props.searchedTasks.length) && props.onEmpyTodos()}
-      {props.searchedTasks.map((task)=> props.render(task) )}
+      {props.loading && props.onLoading()}
+      {!props.loading && !props.totalTask && props.onEmpyTodos()}
+      {!!props.totalTask && !props.searchedTasks.length && props.onEmptySearchResult(props.searchText)}
+      {props.searchedTasks.map((task) => props.render(task))}
       <ul>{props.children}</ul>
     </>
   );

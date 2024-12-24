@@ -16,6 +16,7 @@ import SuccessModal from "./components/SucessModal/SuccessModal";
 import ToDosError from "./ToDo/ToDosError/ToDosError";
 import { useTodos } from "./hooks/useTodos";
 import "./App.css";
+import EmpyToDoSearchResult from "./ToDo/EmpyToDoSearchResult/EmpyToDoSearchResult";
 
 function App() {
   const {
@@ -54,15 +55,18 @@ function App() {
                 setSearchValue={setSearchValue}
               />
             </ToDoHeader>
-            {/* Card */}
+            {/* Card - task list*/}
             <Card>
               <ToDoList
                 error={error}
                 loading={loading}
                 searchedTasks={searchedTasks}
+                totalTask={totalTask}
+                searchText={searchValue}
                 onError={() => <ToDosError />}
                 onLoading={() => <ToDoLoading />}
                 onEmpyTodos={() => <EmptyTodos />}
+                onEmptySearchResult={(searchText) => <EmpyToDoSearchResult searchText={searchText}/>}
                 render={(task) => (
                   <ToDoItemList
                     key={task.id}
