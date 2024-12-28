@@ -15,7 +15,7 @@ import ToDoForm from "./ToDo/ToDoForm/ToDoForm";
 import SuccessModal from "./components/SucessModal/SuccessModal";
 import ToDosError from "./ToDo/ToDosError/ToDosError";
 import { useTodos } from "./hooks/useTodos";
-import {ChangeAlertWithStorageListener} from "./components/ChangeAlert/ChangeAlert";
+import {ChangeAlert} from "./components/ChangeAlert/ChangeAlert";
 import "./App.css";
 
 function App() {
@@ -98,7 +98,7 @@ function App() {
       )}
 
 
-      <ChangeAlertWithStorageListener sincronizeTask={sincronizeTask}/>
+      <ChangeAlert sincronizeTask={sincronizeTask}/>
     </>
   );
 }
