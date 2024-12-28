@@ -15,8 +15,8 @@ import ToDoForm from "./ToDo/ToDoForm/ToDoForm";
 import SuccessModal from "./components/SucessModal/SuccessModal";
 import ToDosError from "./ToDo/ToDosError/ToDosError";
 import { useTodos } from "./hooks/useTodos";
+import {ChangeAlertWithStorageListener} from "./components/ChangeAlert/ChangeAlert";
 import "./App.css";
-import EmpyToDoSearchResult from "./ToDo/EmpyToDoSearchResult/EmpyToDoSearchResult";
 
 function App() {
   const {
@@ -35,6 +35,7 @@ function App() {
     showSuccessMessage,
     handleCloseSuccessModal,
     error,
+    sincronizeTask
   } = useTodos();
 
   return (
@@ -95,6 +96,9 @@ function App() {
           />
         </Modal>
       )}
+
+
+      <ChangeAlertWithStorageListener sincronizeTask={sincronizeTask}/>
     </>
   );
 }
