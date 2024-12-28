@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 function useLocalStorage(initialValue, itemListName) {
-  const [loading, setLoading] = useState(true);
+  const [sincronizeItem, setSincronizeItem] = useState(true);
   const [items, setItems] = useState(initialValue);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -15,24 +16,30 @@ function useLocalStorage(initialValue, itemListName) {
         if (!localStorageItem) {
           parsedItem = [];
           localStorage.setItem(itemListName, JSON.stringify(initialValue));
-        }else{
+        } else {
           parsedItem = JSON.parse(localStorageItem);
           setItems(parsedItem);
         }
         setLoading(false);
+        setSincronizeItem(true);
       } catch (error) {
         setLoading(false);
         setError(true);
       }
     }, 2000);
-  }, []);
+  }, [sincronizeItem]);
 
   const saveItem = (newItem) => {
     localStorage.setItem(itemListName, JSON.stringify(newItem));
     setItems(newItem);
   };
 
-  return { loading, items, saveItem,  error };
+  const sincronizeTask = () => {
+    setLoading(true);
+    setSincronizeItem(false);
+  };
+
+  return { loading, items, saveItem, error, sincronizeTask };
 }
 
 export { useLocalStorage };

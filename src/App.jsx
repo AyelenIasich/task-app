@@ -13,8 +13,9 @@ import CreateBtn from "./components/CreateBtn/CreateBtn";
 import Modal from "./components/Modal/Modal";
 import ToDoForm from "./ToDo/ToDoForm/ToDoForm";
 import SuccessModal from "./components/SucessModal/SuccessModal";
-import ToDosError  from "./ToDo/ToDosError/ToDosError";
+import ToDosError from "./ToDo/ToDosError/ToDosError";
 import { useTodos } from "./hooks/useTodos";
+import {ChangeAlertWithStorageListener} from "./components/ChangeAlert/ChangeAlert";
 import "./App.css";
 
 function App() {
@@ -34,7 +35,7 @@ function App() {
     showSuccessMessage,
     handleCloseSuccessModal,
     error,
-
+    sincronizeTask
   } = useTodos();
 
   return (
@@ -44,38 +45,39 @@ function App() {
           <Header />
           <ToDoContainer>
             {/* Header Card */}
-            <ToDoHeader>
+            <ToDoHeader loading={loading}>
               <ToDoCounter
                 completedTask={completedTask}
                 totalTask={totalTask}
-                loading={loading}
               />
               <ToDoSearch
                 searchValue={searchValue}
                 setSearchValue={setSearchValue}
               />
             </ToDoHeader>
-            {/* Card */}
+            {/* Card - task list*/}
             <Card>
-              <ToDoList>
-                {loading && (
-                  <>
-                    <ToDoLoading />
-                    <ToDoLoading />
-                    <ToDoLoading />
-                  </>
+              <ToDoList
+                error={error}
+                loading={loading}
+                searchedTasks={searchedTasks}
+                totalTask={totalTask}
+                searchText={searchValue}
+                onError={() => <ToDosError />}
+                onLoading={() => <ToDoLoading />}
+                onEmpyTodos={() => <EmptyTodos />}
+                onEmptySearchResult={(searchText) => (
+                  <EmpyToDoSearchResult searchText={searchText} />
                 )}
-              {error && <ToDosError />}
-
-                {!loading && searchedTasks.length === 0 && <EmptyTodos />}
-                {searchedTasks.map((task) => (
+              >
+                {(task) => (
                   <ToDoItemList
                     key={task.id}
                     {...task}
                     onComplete={() => handleCompletedTask(task.id)}
                     onDelete={() => handleDeleteTask(task.id)}
                   />
-                ))}
+                )}
               </ToDoList>
             </Card>
             <CreateBtn setShowModalCreate={setShowModalCreate} />
@@ -87,9 +89,16 @@ function App() {
       )}
       {showModalCreate && (
         <Modal>
-          <ToDoForm setShowModalCreate={setShowModalCreate} handleCreateTask={handleCreateTask} formError={formError}/>
+          <ToDoForm
+            setShowModalCreate={setShowModalCreate}
+            handleCreateTask={handleCreateTask}
+            formError={formError}
+          />
         </Modal>
       )}
+
+
+      <ChangeAlertWithStorageListener sincronizeTask={sincronizeTask}/>
     </>
   );
 }

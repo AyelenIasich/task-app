@@ -27,3 +27,7 @@
   font-size: 18px;
   pointer-events: none; /* El ícono no interfiere con la escritura */
 }
+
+.search-input:disabled{
+  opacity: 25%;
+}

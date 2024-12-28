@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useLocalStorage } from "./useLocalStorage";
 
 function useTodos() {
-
   const {
     loading,
     items: taskList,
     saveItem: saveTasks,
     error,
+    sincronizeTask,
   } = useLocalStorage([], "tasks_v1");
 
   const [formError, setFormError] = useState({ field: "", message: "" });
@@ -99,6 +99,7 @@ function useTodos() {
     showSuccessMessage,
     handleCloseSuccessModal,
     error,
+    sincronizeTask,
   };
 }
 

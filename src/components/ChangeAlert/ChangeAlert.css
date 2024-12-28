@@ -1,0 +1,17 @@
+.card-sincronize{
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 33px 40px;
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #000000;
+    font-weight: 400;
+    font-size: 1.1em;
+}
+
+.bold{
+    font-weight: 600;
+}

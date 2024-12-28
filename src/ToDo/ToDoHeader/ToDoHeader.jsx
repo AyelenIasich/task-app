@@ -1,10 +1,14 @@
-import React from 'react'
-import "./ToDoHeader.css"
+import React from "react";
+import "./ToDoHeader.css";
 
-function ToDoHeader({children}) {
+function ToDoHeader({ children, loading }) {
   return (
-    <div>{children}</div>
-  )
+    <div>
+      {React.Children.toArray(children).map((child) =>
+        React.cloneElement(child, { loading })
+      )}
+    </div>
+  );
 }
 
-export default ToDoHeader
+export default ToDoHeader;
