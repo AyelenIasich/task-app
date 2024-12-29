@@ -15,29 +15,35 @@ import ToDoForm from "./ToDo/ToDoForm/ToDoForm";
 import SuccessModal from "./components/SucessModal/SuccessModal";
 import ToDosError from "./ToDo/ToDosError/ToDosError";
 import { useTodos } from "./hooks/useTodos";
-import {ChangeAlert} from "./components/ChangeAlert/ChangeAlert";
+import { ChangeAlert } from "./components/ChangeAlert/ChangeAlert";
 import "./App.css";
 
 function App() {
+  const { states, stateUpdaters } = useTodos();
+
   const {
     completedTask,
     totalTask,
-    searchedTasks,
+    taskList,
     loading,
-    handleCompletedTask,
-    handleDeleteTask,
     searchValue,
-    setSearchValue,
-    setShowModalCreate,
+    searchedTasks,
     showModalCreate,
-    handleCreateTask,
     formError,
     showSuccessMessage,
-    handleCloseSuccessModal,
     error,
-    sincronizeTask
-  } = useTodos();
+  } = states;
 
+  const {
+    handleCompletedTask,
+    handleDeleteTask,
+    setSearchValue,
+    setShowModalCreate,
+    handleCreateTask,
+    handleCloseSuccessModal,
+    sincronizeTask,
+  } = stateUpdaters;
+  
   return (
     <>
       <main>
@@ -97,8 +103,7 @@ function App() {
         </Modal>
       )}
 
-
-      <ChangeAlert sincronizeTask={sincronizeTask}/>
+      <ChangeAlert sincronizeTask={sincronizeTask} />
     </>
   );
 }

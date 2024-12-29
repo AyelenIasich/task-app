@@ -82,24 +82,32 @@ function useTodos() {
     setShowModalCreate(false);
   };
 
-  return {
+  const states = {
     completedTask,
     totalTask,
     taskList,
     loading,
-    handleCompletedTask,
-    handleDeleteTask,
     searchValue,
-    setSearchValue,
     searchedTasks,
-    setShowModalCreate,
     showModalCreate,
-    handleCreateTask,
     formError,
     showSuccessMessage,
-    handleCloseSuccessModal,
     error,
+  };
+
+  const stateUpdaters = {
+    handleCompletedTask,
+    handleDeleteTask,
+    setSearchValue,
+    setShowModalCreate,
+    handleCreateTask,
+    handleCloseSuccessModal,
     sincronizeTask,
+  };
+
+  return {
+    states,
+    stateUpdaters,
   };
 }
 
