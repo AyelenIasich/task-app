@@ -3,7 +3,7 @@ import "./Header.css"
 
 function Header() {
   return (
-    <h1 className='title-header py-4'>List here all your task</h1>
+    <h1 className='title-header py-4'>Your Tasks at a Glance</h1>
   )
 }
 
