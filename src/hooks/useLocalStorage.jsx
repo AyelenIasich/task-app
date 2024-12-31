@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 
 function useLocalStorage(initialValue, itemListName) {
-  const [sincronizeItem, setSincronizeItem] = useState(true);
-  const [items, setItems] = useState(initialValue);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+
+  const [state, dispatch] = useReducer(reducer, initialState({ initialValue }));
+  const { sincronizeItem, items, loading, error } = state;
+
+  const onError = (error) => dispatch({ type: actionTypes.error, payload: error });
+  const onSuccess = (item) => dispatch({ type: actionTypes.success, payload: item });
+  const onSincronize = () => dispatch({ type: actionTypes.sincronize });
+  const onSave = (item) => dispatch({ type: actionTypes.save, payload: item });
 
   useEffect(() => {
     setTimeout(() => {
@@ -18,28 +22,63 @@ function useLocalStorage(initialValue, itemListName) {
           localStorage.setItem(itemListName, JSON.stringify(initialValue));
         } else {
           parsedItem = JSON.parse(localStorageItem);
-          setItems(parsedItem);
         }
-        setLoading(false);
-        setSincronizeItem(true);
+
+        onSuccess(parsedItem);
       } catch (error) {
-        setLoading(false);
-        setError(true);
+        onError(error);
       }
     }, 2000);
   }, [sincronizeItem]);
 
   const saveItem = (newItem) => {
-    localStorage.setItem(itemListName, JSON.stringify(newItem));
-    setItems(newItem);
+    try {
+      localStorage.setItem(itemListName, JSON.stringify(newItem));
+      onSave(newItem);
+    } catch (error) {
+      onError(error);
+    }
   };
 
-  const sincronizeTask = () => {
-    setLoading(true);
-    setSincronizeItem(false);
-  };
+  const sincronizeTask = () => { onSincronize(); };
 
   return { loading, items, saveItem, error, sincronizeTask };
 }
 
+const initialState = ({ initialValue }) => ({
+  sincronizeItem: true,
+  items: initialValue,
+  loading: true,
+  error: false,
+});
+
+const reducer = (state, action) => {
+  return reducerObject(state, action.payload)[action.type] || state;
+};
+
+const actionTypes = {
+  error: "ERROR",
+  success: "SUCCESS",
+  sincronize: "SINCRONIZE",
+  save: "SAVE",
+};
+
+const reducerObject = (state, payload) => ({
+  [actionTypes.error]: { ...state, error: true, loading: false },
+  [actionTypes.success]: {
+    ...state,
+    loading: false,
+    sincronizeItem: true,
+    items: payload,
+  },
+  [actionTypes.save]: {
+    ...state,
+    items: payload,
+  },
+  [actionTypes.sincronize]: {
+    ...state,
+    sincronizeItem: false,
+    loading: true,
+  },
+});
 export { useLocalStorage };
